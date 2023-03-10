@@ -14,6 +14,7 @@ const AuditorSchema = new mongoose.Schema({
     },
     contests: [{
         contestID: String,
+        report: String,
         reward: Number,
     }],
     totalReward: {

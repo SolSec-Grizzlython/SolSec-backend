@@ -25,12 +25,15 @@ const ContestSchema = new mongoose.Schema({
         type: Number,
         required: [true, "Prize Pool is required"],
     },
-    judge: {
-        type: Array,
-    },
+    judges: [{
+        judgeID: String,
+        reward: Number,
+        approval: Boolean, 
+    }],
     contestStatus: {
         type: Number,
-        enum: [0, 1, 2,3,4,5,6]
+        enum: [0, 1, 2,3,4,5,6],
+        default: 0,
         // 0 - Awaiting Approval
         // 1 - Approved, Judge not assigned
         // 2 - Judge Assigned, Upcoming
@@ -43,6 +46,7 @@ const ContestSchema = new mongoose.Schema({
     participants: [{
         participantID: String,
         reward: Number,
+        finding: String,
     }],
 
 
