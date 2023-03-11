@@ -6,8 +6,10 @@ const mongoose = require('mongoose');
 dotenv.config();
 
 const DB = process.env.DATABASE.replace('<password>', process.env.DATABASE_PASSWORD);
+// const DB = process.env.DATABASE;
+console.log("Hereeee");
 
-mongoose.connect(DB, {
+mongoose.connect('mongodb+srv://admin-satyaraj:rana7103@cluster0.7odqe.mongodb.net/?retryWrites=true&w=majority', {
   useNewUrlParser: true, useUnifiedTopology: true
 }).then(() => {
   console.log('Database Connected')

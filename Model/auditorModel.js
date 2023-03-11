@@ -19,4 +19,6 @@ const AuditorSchema = new mongoose.Schema({
     },
 
 });
-module.exports = mongoose.model("auditorModel", AuditorSchema)
+
+const Auditor = mongoose.model("Auditor", AuditorSchema);
+module.exports = Auditor;

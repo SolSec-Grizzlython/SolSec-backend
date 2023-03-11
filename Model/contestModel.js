@@ -15,7 +15,7 @@ const ContestSchema = new mongoose.Schema({
     },
     startDate: {
         type: Date,
-        required: [true, "Start Date is required"],
+        required: [false, "Start Date is required"],
     },
     duration: {
         type: Number,
@@ -46,7 +46,11 @@ const ContestSchema = new mongoose.Schema({
     participants: [{
         participantID: String,
         reward: Number,
-        finding: String,
+        finding: {
+            type: String,
+            default: "No Finding",
+        },
+        findingSeverity: Number
     }],
 
 

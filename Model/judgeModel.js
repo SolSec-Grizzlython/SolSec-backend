@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require('validator');
 
-const AuditorSchema = new mongoose.Schema({
+const JudgeSchema = new mongoose.Schema({
     name: {
         type: String,
         required: [true, "Name is required"],
@@ -22,4 +22,4 @@ const AuditorSchema = new mongoose.Schema({
     },
 
 });
-module.exports = mongoose.model("auditorModel", AuditorSchema)
+module.exports = mongoose.model("judgeModel", JudgeSchema)
