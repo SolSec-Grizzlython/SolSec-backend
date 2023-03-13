@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const protect = require("../Controller/authController").protect;
 
 const {
     createContest,
@@ -11,7 +12,7 @@ const {
     addJudge
 } = require("../Controller/contestController");
 
-router.route("/create").post(createContest);
+router.route("/create").post(protect,createContest);
 router.route("/getAll").get(getAllContests);
 router.route("/get/:id").get(getContest);
 router.route("/start/:id").patch(startContest);

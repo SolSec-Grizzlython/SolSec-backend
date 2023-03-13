@@ -89,13 +89,14 @@ exports.protect = catchAsync(async (req, res, next) => {
   // * Getting the token
   let token;
   if (
-    req.headers.Authorization &&
-    req.headers.Authorization.startsWith("Bearer")
+    req.body.headers.Authorization &&
+    req.body.headers.Authorization.startsWith("Bearer")
   ) {
-    token = req.headers.Authorization.split(" ")[1];
+    token = req.body.headers.Authorization.split(" ")[1];
   }
 
   if (!token) {
+    
     return next(
       new AppError("You are not logged in. Please login to get access", 401)
     );
@@ -103,7 +104,6 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   // * Verification of the token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
   // * Check user still exists or not
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {

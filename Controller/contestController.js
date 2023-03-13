@@ -4,8 +4,9 @@ const Judge = require("../Model/judgeModel");
 
 exports.createContest = async (req, res) => {
     try {
+        
         const contest = await Contest.create({
-            ...req.body});
+            ...req.body.contest});
         res.status(201).json({
             status: "success",
             data: {
