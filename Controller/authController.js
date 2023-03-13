@@ -24,20 +24,20 @@ const signToken = (id) => {
 const createAndSendToken = catchAsync(async (user, statusCode, res) => {
   const token = signToken(user._id);
 
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
+  // const cookieOptions = {
+  //   expires: new Date(
+  //     Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+  //   ),
+  //   httpOnly: true,
+  // };
 
-  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+  // if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
 
-  await Session.create({
-    token,
-  });
+  // await Session.create({
+  //   token,
+  // });
 
-  res.cookie("jwt", token, cookieOptions);
+  // res.cookie("jwt", token, cookieOptions);
 
   user.password = undefined;
 
@@ -64,12 +64,6 @@ exports.signup = catchAsync(async (req, res, next) => {
     ...req.body
   });
   createAndSendToken(newUser, 201, res);
-
-  res.status(201).json({
-    status: "success",
-    data: newUser,
-  });
-  // next();
 });
 
 //This is the login function to login the user
@@ -95,10 +89,10 @@ exports.protect = catchAsync(async (req, res, next) => {
   // * Getting the token
   let token;
   if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
+    req.headers.Authorization &&
+    req.headers.Authorization.startsWith("Bearer")
   ) {
-    token = req.headers.authorization.split(" ")[1];
+    token = req.headers.Authorization.split(" ")[1];
   }
 
   if (!token) {
