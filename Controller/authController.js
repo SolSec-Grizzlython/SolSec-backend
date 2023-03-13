@@ -1,10 +1,10 @@
 const { promisify } = require("util");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
-const User = require("../Models/userModel");
+const User = require("../Model/userModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
-const Session = require("../Models/sessionModel");
+const Session = require("../Model/sessionModel");
 // const sendEmail = require('../utils/email');
 
 const signToken = (id) => {
@@ -53,14 +53,15 @@ const createAndSendToken = catchAsync(async (user, statusCode, res) => {
 //This is the signup function to create user
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm,
-    designation: req.body.designation,
-    contactNumber: req.body.contactNumber,
-    // passwordChangedAt: req.body.passwordChangedAt
-    role: req.body.role || "user",
+    // name: req.body.name,
+    // email: req.body.email,
+    // password: req.body.password,
+    // passwordConfirm: req.body.passwordConfirm,
+    // designation: req.body.designation,
+    // contactNumber: req.body.contactNumber,
+    // // passwordChangedAt: req.body.passwordChangedAt
+    // role: req.body.role || "user",
+    ...req.body
   });
   createAndSendToken(newUser, 201, res);
 

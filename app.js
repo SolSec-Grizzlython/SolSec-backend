@@ -8,6 +8,7 @@ const globalErrorHandler = require("./Controller/errorController");
 // const projectRouter = require("./Routes/projectRoutes");
 // const teamRouter = require("./Routes/teamRoutes");
 // const videoRouter = require("./Routes/videoRoutes");
+const authRouter = require("./Routes/authRoute");
 const auditorRouter = require("./Routes/auditorRoute");
 const contestRouter = require("./Routes/contestRoute");
 const judgeRouter = require("./Routes/judgeRoutes");
@@ -53,6 +54,7 @@ app.get("/api/v1", (req, res, next) => {
   res.send("Test working");
 });
 
+app.use("/auth",authRouter);
 app.use("/auditor", auditorRouter);
 app.use("/contest", contestRouter);
 app.use("/judge", judgeRouter);
