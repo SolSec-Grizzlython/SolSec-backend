@@ -60,16 +60,25 @@ exports.getAuditor = async (req, res) => {
 exports.participateInContest = async (req, res) => {
     try {
         const contest = await Contest.findById(req.params.id);
-        const auditor = await Auditor.findById(req.params.userId);
+        const user = await User.findById(req.params.userId);
+        const userEmail = user.email;
+        const auditor = await Auditor.findOne({ email: userEmail });   
+        
+
+        
+        const participant = {
+            participantID: auditor._id.toString(),
+            reward: 0
+        }
+        const thiscontest = {
+            contestID: contest._id.toString(),
+            reward: 0
+        }
         if (contest.contestStatus === 3) {
-            contest.participants.push({
-                participantID: auditor._id,
-                reward: 0
-            });
-            auditor.contests.push({
-                contestID: contest._id,
-                reward: 0,
-            });
+            
+            contest.participants.push(participant);
+            auditor.contests.push(thiscontest);
+            
             await contest.save();
             await auditor.save();
             res.status(200).json({

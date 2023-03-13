@@ -2,6 +2,7 @@ const { promisify } = require("util");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const User = require("../Model/userModel");
+const Auditor = require("../Model/auditorModel");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/appError");
 const Session = require("../Model/sessionModel");
@@ -63,6 +64,15 @@ exports.signup = catchAsync(async (req, res, next) => {
     // role: req.body.role || "user",
     ...req.body
   });
+  if (req.body.role === "auditor") {
+    const newAuditor = await Auditor.create({
+      name: req.body.name,
+      email: req.body.email,
+      contests: [],
+      totalReward: 0,
+      
+    });
+  }
   createAndSendToken(newUser, 201, res);
 });
 
@@ -88,13 +98,15 @@ exports.login = catchAsync(async (req, res, next) => {
 exports.protect = catchAsync(async (req, res, next) => {
   // * Getting the token
   let token;
+  console.log("Here");
+  
   if (
     req.body.headers.Authorization &&
     req.body.headers.Authorization.startsWith("Bearer")
   ) {
     token = req.body.headers.Authorization.split(" ")[1];
   }
-
+  console.log("Here is the token", token);
   if (!token) {
     
     return next(
@@ -105,9 +117,10 @@ exports.protect = catchAsync(async (req, res, next) => {
   // * Verification of the token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   // * Check user still exists or not
+  console.log("Here is the decodede information", decoded);
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
-    return next(new AppError("The user doesnot exists", 401));
+    return next(new AppError("The user does not exists", 401));
   }
 
   // ! Grant access to the protected routes
@@ -116,7 +129,10 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 exports.restrictTo = (...roles) => {
+  
   return (req, res, next) => {
+    console.log("this is roles ",roles);
+  console.log("this is req.user.roles",req.user.role);
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError("You do not have permission to perform this action", 403)
