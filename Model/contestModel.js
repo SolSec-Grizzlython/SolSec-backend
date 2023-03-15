@@ -15,7 +15,7 @@ const ContestSchema = new mongoose.Schema({
     },
     startDate: {
         type: Date,
-        required: [false, "Start Date is required"],
+        required: [true, "Start Date is required"],
     },
     duration: {
         type: Number,
@@ -52,6 +52,16 @@ const ContestSchema = new mongoose.Schema({
         },
         findingSeverity: Number
     }],
+    distribution: {
+        high:{
+            type: Number,
+        },
+        low: {
+            type: Number,
+        }
+    },
+    
+
 
 
     //distribution

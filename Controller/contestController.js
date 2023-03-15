@@ -1,8 +1,17 @@
 const Contest = require("../Model/contestModel");
 const Judge = require("../Model/judgeModel");
+const User = require("../Model/userModel");
 
 
 exports.createContest = async (req, res) => {
+    const user = await User.findOne({email: req.body.contest.email});
+    if (!user) { 
+        return res.status(404).json({
+            status: "fail",
+            message: "No protocol with that email found",
+        });
+    }
+
     try {
         const contest = await Contest.create({
             ...req.body.contest});
@@ -40,6 +49,7 @@ exports.getAllContests = async (req, res) => {
 }
 
 exports.getContest = async (req, res) => {
+    console.log("Here is the req");
     try {
         const contest = await Contest.findById(req.params.id);
         res.status(200).json({
