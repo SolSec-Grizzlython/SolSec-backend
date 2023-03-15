@@ -16,7 +16,7 @@ mongoose.connect('mongodb+srv://admin-satyaraj:rana7103@cluster0.7odqe.mongodb.n
   console.log(err)
 })
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 8000;
 
 app.listen(PORT, () => {
   console.log('Server Started on Port', PORT);

@@ -3,11 +3,6 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const cors = require("cors");
 const globalErrorHandler = require("./Controller/errorController");
-// const blogRouter = require("./Routes/blogsRoutes");
-// const eventRouter = require("./Routes/eventsRoutes");
-// const projectRouter = require("./Routes/projectRoutes");
-// const teamRouter = require("./Routes/teamRoutes");
-// const videoRouter = require("./Routes/videoRoutes");
 const authRouter = require("./Routes/authRoute");
 const auditorRouter = require("./Routes/auditorRoute");
 const contestRouter = require("./Routes/contestRoute");
@@ -54,16 +49,12 @@ app.get("/api/v1", (req, res, next) => {
   res.send("Test working");
 });
 
-app.use("/auth",authRouter);
-app.use("/auditor", auditorRouter);
-app.use("/contest", contestRouter);
-app.use("/judge", judgeRouter);
+app.use("/solsec/auth",authRouter);
+app.use("/solsec/auditor", auditorRouter);
+app.use("/solsec/contest", contestRouter);
+app.use("/solsec/judge", judgeRouter);
 
-// app.use("/api/v1/blog", blogRouter);
-// app.use("/api/v1/event", eventRouter);
-// app.use("/api/v1/project", projectRouter);
-// app.use("/api/v1/team", teamRouter);
-// app.use("/api/v1/video", videoRouter);
+
 
 app.use("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
